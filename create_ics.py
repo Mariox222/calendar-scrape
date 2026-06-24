@@ -22,6 +22,12 @@ def main():
         date = item.get("datum")
         start_time = item.get("terminPocetak") + ":00"
         end_time = item.get("terminKraj") + ":00"
+        # print(start_time)
+        # convert to utc+0, -2 if at summer time
+        start_time = str(int(start_time.split(":")[0]) - 1) + ":" + start_time.split(":")[1] + ":" + start_time.split(":")[2]
+        end_time = str(int(end_time.split(":")[0]) - 1) + ":" + end_time.split(":")[1] + ":" + end_time.split(":")[2]
+        # print(start_time)
+        # convert date to yyyy-mm-d-
         date = datetime.strptime(date, "%d.%m.%Y.").strftime("%Y-%m-%d")
         event.begin = f"{date} {start_time}"
         event.end = f"{date} {end_time}"
@@ -34,8 +40,5 @@ def main():
     with open("calendar.ics", "w") as f:
         f.write(str(calendar))
     
-    
-
-
 if __name__ == "__main__":
     main()
